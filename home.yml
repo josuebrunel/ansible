@@ -1,0 +1,7 @@
+- hosts: "{{ xhost }}"
+  vars_files:
+    - vars/home/{{ xuservars }}.yml
+  roles:
+    - common
+    - user
+    - home
