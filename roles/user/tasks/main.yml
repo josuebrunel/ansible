@@ -1,0 +1,13 @@
+- name: Create user "{{ xuservars }}"
+  user:
+    name: "{{ xuservars }}"
+    shell: /bin/bash
+    state: present
+
+- name: Add user "{{ xuservars }}" authorized key
+  authorized_key:
+    user: "{{ xuservars }}"
+    state: present
+    key: "{{ item }}"
+  with_items:
+      - "{{ ssh_keys }}"
