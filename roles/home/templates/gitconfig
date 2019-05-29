@@ -1,0 +1,44 @@
+[user]
+	name = {{ gitconfig_name }}
+	email = {{ gitconfig_email }}
+[color]
+	ui = true
+	branch = auto
+	diff = auto
+	interactive = auto
+	status = auto
+[core]
+	autocrlf = input
+	excludesfile = ~/.gitignore
+	editor = vim
+[alias]
+    co = checkout
+    ci = commit
+    st = status
+    br = branch
+    hist = log --pretty=format:\"%h %ad | %s%d [%an]\" --graph --date=short
+    type = cat-file -t
+    dump = cat-file -p
+    pull-all = pull --recurse-submodules
+    update-all = submodule update --recursive
+    update-init-all = submodule update --init --recursive
+    pup = pull & git submodule init & git submodule update & git submodule status
+    which-files = diff-tree --no-commit-id --name-only -r
+    fmp = format
+    format-patch-sha = format-patch -1
+    list-tags = tag --sort -version:refname
+    sub-to-master = submodule foreach --recursive git co master; git stash; git pull origin master || true
+[credential]
+	helper = cache --timeout=86400
+[filter "media"]
+	required = true
+	clean = git media clean %f
+	smudge = git media smudge %f
+[push]
+	default = matching
+[pull]
+    rebase = true
+[filter "hawser"]
+	clean = git hawser clean %f
+	smudge = git hawser smudge %f
+	required = true
