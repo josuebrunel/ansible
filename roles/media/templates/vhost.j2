@@ -1,0 +1,22 @@
+server {
+  listen 80;
+  server_name {{appname}}.josuebrunel.org;
+  return 301 https://$host$request_uri;
+}
+
+server {
+  listen 443 ssl;
+  server_name {{appname}}.josuebrunel.org;
+  ssl_certificate /etc/letsencrypt/live/josuebrunel.org/fullchain.pem;
+  ssl_certificate_key /etc/letsencrypt/live/josuebrunel.org/privkey.pem;
+  ssl_dhparam /etc/nginx/ssl/dhparam-2048.pem;
+  ssl on;
+
+  location / {
+    include proxy_params;
+    proxy_pass http://localhost:{{port}};
+  }
+
+  access_log /var/log/nginx/{{appname}}.josuebrunel.org-access.log;
+  error_log /var/log/nginx/{{appname}}.josuebrunel.org-error.log;
+}

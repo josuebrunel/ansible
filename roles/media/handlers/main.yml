@@ -4,3 +4,15 @@
     name: qbittorrent
     enabled: yes
     state: started
+
+- name: Starts radarr service
+  systemd:
+    daemon_reload: yes
+    name: radarr
+    enabled: yes
+    state: started
+
+- name: Restart nginx
+  systemd:
+    name: nginx
+    state: restarted

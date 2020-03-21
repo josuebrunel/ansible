@@ -1,0 +1,25 @@
+[Unit]
+Description=Radarr Daemon
+After=syslog.target network.target
+
+[Service]
+User=media
+Group=media
+
+Type=simple
+
+ExecStart=/usr/bin/mono --debug /opt/radarr/Radarr/Radarr.exe -nobrowser
+TimeoutStopSec=20
+KillMode=process
+#StartLimitIntervalSec=10
+#Restart=on-failure
+
+# These lines optionally isolate (sandbox) Radarr from the rest of the system.
+# Make sure to add any paths it might use to the list below (space-separated).
+#ReadWritePaths=/opt/radarr /path/to/movies/folder
+#ProtectSystem=strict
+#PrivateDevices=true
+#ProtectHome=true
+
+[Install]
+WantedBy=multi-user.target

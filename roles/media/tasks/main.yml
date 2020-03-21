@@ -29,3 +29,72 @@
   notify: Starts qbittorrent service
   tags:
     - qbittorrent
+
+
+- name: Set up qbittorrent nginx vhosts
+  vars:
+    appname: torrent
+    port: 8090
+  template:
+    src: "{{ role_path }}/templates/vhost.j2"
+    dest: "/etc/nginx/sites-available/{{item}}"
+  with_items:
+    - qbittorrent
+  tags:
+    - qbittorrent
+
+- name: Get radarr
+  get_url:
+    url: "{{ radarr_relase_url }}"
+    dest: "{{ radarr_tmp }}"
+  tags:
+    - radarr
+
+- name: Create radarr working dir (/opt/radarr)
+  file:
+    name: "{{ radarr_working_dir }}"
+    state: directory
+    owner: media
+    group: media
+  tags:
+    - radarr
+
+- name: Unarchive radarr to its working directory
+  unarchive:
+    src: "{{ radarr_tmp }}" 
+    dest: "{{ radarr_working_dir }}"
+    remote_src: yes
+    owner: media
+    group: media
+  tags:
+    - radarr
+
+- name: Set up radarr nginx vhosts
+  vars:
+    appname: radarr
+    port: 7878
+  template:
+    src: "{{ role_path }}/templates/vhost.j2"
+    dest: "/etc/nginx/sites-available/{{item}}"
+  with_items:
+    - radarr
+  tags:
+    - radarr
+
+- name: Enable radarr nginx vhosts
+  file:
+    src: "/etc/nginx/sites-available/radarr" 
+    dest: "/etc/nginx/sites-enabled/radarr"
+    state: link
+  notify: Restart nginx
+  tags:
+    - radarr
+
+- name: Set up radarr service
+  copy:
+      src: "{{ role_path }}/files/radarr.service"
+      dest: /etc/systemd/system/radarr.service
+      mode: 0777
+  notify: Starts radarr service
+  tags:
+    - radarr

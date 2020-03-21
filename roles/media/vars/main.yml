@@ -1,0 +1,4 @@
+radarr_version: 0.2.0.1480
+radarr_relase_url: "https://github.com/Radarr/Radarr/releases/download/v{{radarr_version}}/Radarr.develop.{{radarr_version}}.linux.tar.gz"
+radarr_tmp: "/tmp/radarr-{{radarr_version}}.tar.gz"
+radarr_working_dir: "/opt/radarr/"
