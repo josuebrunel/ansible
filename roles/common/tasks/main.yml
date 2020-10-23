@@ -7,7 +7,7 @@
         - vim-nox
         - git
         - python-apt
-        - python-pip
+        - python3-pip
         - ipython
         - tree
         - htop
